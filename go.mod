@@ -2,10 +2,7 @@ module calendar-log-backend
 
 go 1.23.0
 
-require (
-	github.com/gin-gonic/gin v1.10.0
-	github.com/joho/godotenv v1.5.1
-)
+require github.com/gin-gonic/gin v1.10.0
 
 require (
 	github.com/bytedance/sonic v1.12.5 // indirect
