@@ -4,6 +4,7 @@ import (
 	"calendar-log-backend/config"
 	"calendar-log-backend/utils"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -139,4 +140,51 @@ func DeleteJSON(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Key deleted successfully",
 	})
+}
+
+// 下载 JSON 文件的接口
+func DownloadJSON(c *gin.Context) {
+	// 读取 JSON 文件数据
+	data, err := utils.ReadJSONFile(config.JSON_PATH)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	// 创建临时文件
+	tempFile, err := os.CreateTemp("", "data-*.json")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	defer os.Remove(tempFile.Name()) // 确保临时文件在响应后被删除
+
+	// 将 JSON 数据写入临时文件
+	fileContent, err := utils.MarshalJSON(data)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	// 写入文件
+	if _, err := tempFile.Write(fileContent); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	// 重置文件指针，准备发送文件
+	tempFile.Seek(0, 0)
+
+	// 设置响应头，指定文件名和文件类型
+	c.Header("Content-Disposition", "attachment; filename=data.json")
+	c.Header("Content-Type", "application/json")
+	c.File(tempFile.Name()) // 发送文件内容
 }

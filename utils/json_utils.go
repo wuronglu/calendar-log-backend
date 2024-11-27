@@ -38,3 +38,7 @@ func WriteJSONFile(filePath string, data map[string]string) error {
 
 	return nil
 }
+
+func MarshalJSON(data interface{}) ([]byte, error) {
+	return json.MarshalIndent(data, "", "  ") // 格式化为易读的 JSON 格式
+}
