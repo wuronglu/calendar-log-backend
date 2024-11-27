@@ -184,7 +184,7 @@ func DownloadJSON(c *gin.Context) {
 	tempFile.Seek(0, 0)
 
 	// 设置响应头，指定文件名和文件类型
-	c.Header("Content-Disposition", "attachment; filename=data.json")
+	c.Header("Content-Disposition", "attachment; filename=links.json")
 	c.Header("Content-Type", "application/json")
-	c.File(tempFile.Name()) // 发送文件内容
+	c.File(tempFile.Name())
 }
