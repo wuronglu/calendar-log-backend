@@ -154,7 +154,7 @@ func DownloadJSON(c *gin.Context) {
 	}
 
 	// 创建临时文件
-	tempFile, err := os.CreateTemp("", "data-*.json")
+	tempFile, err := os.CreateTemp("", "links-*.json")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
