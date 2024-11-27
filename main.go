@@ -26,5 +26,8 @@ func main() {
 	r.Use(middlewares.CORSMiddleware())
 	routes.RegisterRoutes(r)
 
-	r.Run(":" + port)
+	err = r.RunTLS(":"+port, "server.crt", "server.key")
+	if err != nil {
+		log.Fatalln("Failed to start server: ", err.Error())
+	}
 }
