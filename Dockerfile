@@ -1,5 +1,5 @@
 # 使用 Go 官方镜像作为构建环境
-FROM golang:1.23 AS builder
+FROM golang:1.21 AS builder
 
 # 设置工作目录
 WORKDIR /app
