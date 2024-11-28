@@ -26,9 +26,10 @@ func main() {
 	r.Use(middlewares.CORSMiddleware())
 	routes.RegisterRoutes(r)
 
-	// err = r.RunTLS(":"+port, "server.crt", "server.key")
-	// if err != nil {
-	// 	log.Fatalln("Failed to start server: ", err.Error())
-	// }
-	r.Run(":" + port)
+	// 启动 HTTPS 服务器
+	err = r.RunTLS(":443", "./fullchain.pem", "./privkey.pem")
+	if err != nil {
+		log.Fatalln("Failed to start server: ", err.Error())
+	}
+	// r.Run(":" + port)
 }
