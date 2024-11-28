@@ -27,7 +27,7 @@ func main() {
 	routes.RegisterRoutes(r)
 
 	// 启动 HTTPS 服务器
-	err = r.RunTLS(":443", "./fullchain.pem", "./privkey.pem")
+	err = r.RunTLS(":443", "./cloudflare.pem", "./cloudflare-key.pem")
 	if err != nil {
 		log.Fatalln("Failed to start server: ", err.Error())
 	}
